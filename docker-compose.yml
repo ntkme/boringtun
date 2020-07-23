@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  boringtun:
+    image: ntkme/boringtun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "51820:51820/udp"
+    volumes:
+      - "./etc/wireguard:/etc/wireguard"
+    restart: always
