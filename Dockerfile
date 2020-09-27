@@ -1,16 +1,9 @@
 FROM alpine:latest
 
-RUN apk add --no-cache alpine-sdk rustup \
- && rustup-init -y --target x86_64-unknown-linux-musl \
- && source ~/.cargo/env \
- && cargo install --target x86_64-unknown-linux-musl boringtun
-
-FROM alpine:latest
-
-COPY --from=0 /root/.cargo/bin/boringtun /usr/bin
-
-RUN apk add --no-cache tini wireguard-tools \
- && apk add --no-cache --virtual .build-deps libcap \
+RUN apk add --no-cache libgcc tini wireguard-tools \
+ && apk add --no-cache --virtual .build-deps cargo libcap \
+ && cargo install --root /usr boringtun \
+ && rm -rf ~/.cargo \
  && setcap cap_net_admin+ep /usr/bin/boringtun \
  && apk del --purge .build-deps \
  && printf '%s\n' '#!/bin/sh' 'mkdir -p /var/run/wireguard && chown "$LOGNAME:" /var/run/wireguard && exec su -s /usr/bin/boringtun -- "$LOGNAME" "$@"' \
