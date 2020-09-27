@@ -1,4 +1,4 @@
-# docker-boringtun
+# container-boringtun
 
 ``` sh
 docker run -d \
