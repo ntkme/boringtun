@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --no-cache ip6tables libgcc tini wireguard-tools \
+RUN apk add --no-cache libgcc tini wireguard-tools \
  && apk add --no-cache --virtual .build-deps cargo libcap \
  && cargo install --root /usr boringtun \
  && rm -rf ~/.cargo \
