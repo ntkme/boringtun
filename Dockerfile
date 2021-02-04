@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM docker.io/library/alpine:latest
 
 RUN apk add --no-cache libgcc tini wireguard-tools \
  && apk add --no-cache --virtual .build-deps cargo libcap \
