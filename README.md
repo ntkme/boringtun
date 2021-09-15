@@ -7,5 +7,5 @@ docker run -d \
   --cap-add NET_RAW \
   --publish 51820:51820/udp \
   --volume /etc/wireguard:/etc/wireguard \
-  ghcr.io/ntkme/boringtun
+  ghcr.io/ntkme/boringtun wg0
 ```

@@ -29,6 +29,6 @@ RUN apk add --no-cache catatonit libgcc wireguard-tools \
 
 VOLUME ["/etc/wireguard"]
 
-ENV WG_QUICK_USERSPACE_IMPLEMENTATION=boringtun LOGNAME=nobody INTERFACE=wg0
+ENV WG_QUICK_USERSPACE_IMPLEMENTATION=boringtun LOGNAME=nobody
 
-ENTRYPOINT ["/usr/bin/catatonit", "--", "/bin/sh", "-c", "test -f \"/etc/wireguard/$INTERFACE.conf\" || ( umask 077 && printf '%s\\n' '[Interface]' 'Address = 10.8.0.1/24' 'ListenPort = 51820' \"PrivateKey = $(wg genkey)\" | tee \"/etc/wireguard/$INTERFACE.conf\" ) && test -c /dev/net/tun || { mkdir -p /dev/net && mknod -m 666 /dev/net/tun c 10 200; } && exec wg-quick up \"$INTERFACE\"", "--"]
+ENTRYPOINT ["/usr/bin/catatonit", "--", "/bin/sh", "-c", "test -c /dev/net/tun || { mkdir -p /dev/net && mknod -m 666 /dev/net/tun c 10 200; } && exec wg-quick up \"$@\"", "--"]
