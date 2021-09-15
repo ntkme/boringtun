@@ -2,7 +2,7 @@ FROM docker.io/library/alpine:latest
 
 RUN apk add --no-cache catatonit libgcc wireguard-tools \
  && apk add --no-cache --virtual .build-deps cargo libcap \
- && cargo install --root /usr boringtun \
+ && cargo install --root /usr --git https://github.com/cloudflare/boringtun.git boringtun \
  && rm -rf ~/.cargo \
  && setcap cap_net_admin+ep /usr/bin/boringtun \
  && apk del --purge .build-deps \
