@@ -1,0 +1,3 @@
+[submodule "vendor/github.com/cloudflare/boringtun"]
+	path = vendor/github.com/cloudflare/boringtun
+	url = https://github.com/cloudflare/boringtun.git
