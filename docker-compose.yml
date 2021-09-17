@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   boringtun:
-    image: ghcr.io/ntkme/boringtun
+    image: ghcr.io/ntkme/boringtun:edge
     cap_add:
       - NET_ADMIN
     ports:
