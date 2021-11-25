@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:3.14.3
+FROM docker.io/library/alpine:3.15.0
 
 RUN apk add --no-cache catatonit libgcc wireguard-tools \
  && apk add --no-cache --virtual .build-deps cargo libcap \
