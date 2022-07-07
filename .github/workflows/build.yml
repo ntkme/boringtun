@@ -23,12 +23,18 @@ jobs:
     steps:
       - name: Extend swap size
         run: |
+          sudo swapon -s
           sudo swapoff /mnt/swapfile
           sudo rm /mnt/swapfile
           sudo fallocate -l 12884901888 /mnt/swapfile
           sudo chmod 600 /mnt/swapfile
           sudo mkswap /mnt/swapfile
           sudo swapon /mnt/swapfile
+          sudo fallocate -l 25769803776 /.swapfile
+          sudo chmod 600 /.swapfile
+          sudo mkswap /.swapfile
+          sudo swapon /.swapfile
+          sudo swapon -s
 
       - name: Checkout
         uses: actions/checkout@v3
