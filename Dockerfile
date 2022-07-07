@@ -1,11 +1,12 @@
+FROM docker.io/library/rust:1-alpine AS builder
+
+RUN apk add --no-cache libcap musl-dev \
+ && cargo install --root /usr --git https://github.com/cloudflare/boringtun.git boringtun-cli \
+ && setcap cap_net_admin+ep /usr/bin/boringtun-cli
+
 FROM docker.io/library/alpine:3.16.0
 
-RUN apk add --no-cache catatonit libgcc wireguard-tools \
- && apk add --no-cache --virtual .build-deps cargo libcap \
- && cargo install --root /usr --git https://github.com/cloudflare/boringtun.git boringtun-cli \
- && rm -rf ~/.cargo \
- && setcap cap_net_admin+ep /usr/bin/boringtun-cli \
- && apk del --purge .build-deps \
+RUN apk add --no-cache catatonit wireguard-tools \
  && printf '%s\n' \
            '#!/bin/sh' \
            'mkdir -p /var/run/wireguard && chown "$LOGNAME:" /var/run/wireguard && exec su -s /usr/bin/boringtun-cli -- "$LOGNAME" "$@"' \
@@ -26,6 +27,8 @@ RUN apk add --no-cache catatonit libgcc wireguard-tools \
            'fi' \
   | tee /usr/local/bin/wg-quick \
  && chmod a+x /usr/local/bin/boringtun-cli /usr/local/bin/wg-quick
+
+COPY --from=builder /usr/bin/boringtun-cli /usr/bin/boringtun-cli
 
 VOLUME ["/etc/wireguard"]
 
