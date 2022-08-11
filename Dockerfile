@@ -21,7 +21,7 @@ RUN apk add --no-cache catatonit wireguard-tools \
            '	parse_options "$2"' \
            '	( cmd_up & )' \
            '	kill -19 $$' \
-           '	cmd exec "${WG_QUICK_USERSPACE_IMPLEMENTATION:-wireguard-go}" --foreground "$INTERFACE"' \
+           '	test -c /dev/net/tun || { mkdir -p /dev/net && mknod -m 666 /dev/net/tun c 10 200; } && cmd exec "${WG_QUICK_USERSPACE_IMPLEMENTATION:-wireguard-go}" --foreground "$INTERFACE"' \
            'else' \
            '	exec /usr/bin/wg-quick "$@"' \
            'fi' \
@@ -34,4 +34,4 @@ VOLUME ["/etc/wireguard"]
 
 ENV WG_QUICK_USERSPACE_IMPLEMENTATION=boringtun-cli LOGNAME=nobody
 
-ENTRYPOINT ["/usr/bin/catatonit", "--", "/bin/sh", "-c", "test -c /dev/net/tun || { mkdir -p /dev/net && mknod -m 666 /dev/net/tun c 10 200; } && exec wg-quick up \"$@\"", "--"]
+ENTRYPOINT ["/usr/bin/catatonit", "--", "/usr/local/bin/wg-quick", "up"]
