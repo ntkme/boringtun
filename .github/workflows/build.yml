@@ -30,7 +30,7 @@ jobs:
           sudo chmod 600 /mnt/swapfile
           sudo mkswap /mnt/swapfile
           sudo swapon /mnt/swapfile
-          sudo fallocate -l 25769803776 /.swapfile
+          sudo fallocate -l 21474836480 /.swapfile
           sudo chmod 600 /.swapfile
           sudo mkswap /.swapfile
           sudo swapon /.swapfile
