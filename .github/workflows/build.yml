@@ -35,6 +35,7 @@ jobs:
           sudo mkswap /.swapfile
           sudo swapon /.swapfile
           sudo swapon --show
+          sudo df -h
 
       - name: Checkout
         uses: actions/checkout@v3
