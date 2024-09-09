@@ -4,7 +4,7 @@ RUN apk add --no-cache libcap musl-dev \
  && cargo install --root /usr --git https://github.com/cloudflare/boringtun.git boringtun-cli \
  && setcap cap_net_admin+ep /usr/bin/boringtun-cli
 
-FROM docker.io/library/alpine:3.20.2
+FROM docker.io/library/alpine:3.20.3
 
 RUN apk add --no-cache catatonit wireguard-tools \
  && printf '%s\n' \
